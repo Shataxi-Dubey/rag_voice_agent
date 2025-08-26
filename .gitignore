@@ -4,4 +4,3 @@ setup.md
 Questions.txt
 qdrant_storage
 ./backend/db/qdrant.ipynb
-test.ipynb
