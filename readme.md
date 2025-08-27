@@ -24,7 +24,7 @@ git clone https://github.com/Shataxi-Dubey/rag_voice_agent.git
 cd rag_voice_agent
 ```
 ### 2. Start the application with docker compose
-``bash
+```bash
 docker compose up --build
 ```
 ---
