@@ -27,6 +27,7 @@ cd rag_voice_agent
 ``bash
 docker compose up --build
 ```
+---
 
 This will:
 
