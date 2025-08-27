@@ -26,7 +26,10 @@ from google.genai.types import HttpOptions
 
 load_dotenv()
 
-url = "http://localhost:6333"
+host = os.getenv("QDRANT_HOST", "localhost")
+port = os.getenv("QDRANT_PORT", 6333)
+
+url = f"http://{host}:{port}"
 client = QdrantClient(url)
 embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 
