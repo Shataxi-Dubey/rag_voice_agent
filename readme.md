@@ -27,7 +27,6 @@ cd rag_voice_agent
 ```bash
 docker compose up --build
 ```
----
 
 This will:
 
@@ -59,4 +58,5 @@ This will:
 - **Database** → Qdrant (Vector DB)  
 - **Orchestration** → Docker Compose  
 
-# Important: replace the placeholders in .env.example with the API keys and then rename it to .env. If not done so there will be many API key missing errors.
+# Important: 
+Replace the placeholders in .env.example with the API keys and then rename it to .env. If not done so there will be many API key missing errors.
