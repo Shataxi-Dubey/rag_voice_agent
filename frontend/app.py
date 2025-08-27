@@ -8,10 +8,16 @@ streamlit app with \
 6. Add a button for playing the audio \
 '''
 
+import os
 import requests
 import io
 
 import streamlit as st
+
+host = os.getenv("BACKEND_HOST", "localhost")
+port = os.getenv("BACKEND_PORT", 8000)
+
+url = f"http://{host}:{port}"
 
 # Upload the PDF file and prepare its chunk
 uploaded_files = st.file_uploader(
@@ -20,7 +26,7 @@ uploaded_files = st.file_uploader(
 if uploaded_files and "db_ready" not in st.session_state:
     files = [("files", (f.name, f, "application/pdf")) for f in uploaded_files]
 
-    msg = requests.post('http://localhost:8000/files/upload', files=files)
+    msg = requests.post(f'{url}/files/upload', files=files)
     msg = msg.json()
     if msg['status_code'] == 200:
         st.success("Files uploaded and processed successfully!")
@@ -42,12 +48,12 @@ if "db_ready" in st.session_state and len(uploaded_files):
         file_bytes = audio_file.read()
         file_bytes = io.BytesIO(file_bytes)
         file = {"audio_file": (audio_file.name, file_bytes, audio_file.type)}
-        msg = requests.post('http://localhost:8000/audio/upload', files=file)
+        msg = requests.post(f'{url}/audio/upload', files=file)
 
     if audio_value is not None:
         file_bytes = audio_value
         file = {"audio_file": ("tmp.wav", file_bytes, audio_value.type)}
-        msg = requests.post('http://localhost:8000/audio/upload', files=file)
+        msg = requests.post(f'{url}/audio/upload', files=file)
 
 
 
@@ -59,13 +65,13 @@ if "db_ready" in st.session_state and len(uploaded_files):
             query = msg['message']
             st.write(f"Your Query is : {query}")
 
-            answer = requests.get('http://localhost:8000/user/query', params = {"q": query})
+            answer = requests.get(f'{url}/user/query', params = {"q": query})
             answer = answer.json()
             if answer['status_code'] == 200:
                 answer = answer['message']
                 st.write(f"Answer is : {answer}")
 
-                audio_response = requests.post('http://localhost:8000/audio/generate_speech', params = {"text": answer})
+                audio_response = requests.post(f'{url}/audio/generate_speech', params = {"text": answer})
                 if audio_response.status_code == 200:
                     st.audio(audio_response.content, format="audio/mpeg")
 
